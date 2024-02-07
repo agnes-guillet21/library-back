@@ -1,5 +1,6 @@
 package fr.library.back.book;
 
+import fr.library.back.LibraryRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,32 +8,51 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class BookRestController {
+public class BookRestController implements LibraryRestController<BookDto> {
 
     @Autowired
-    protected BookServiceImpl bookService;
+    protected BookService bookService;
 
     /**
      * Read - Get all books
      * @return - An Iterable object of Book full filled
      */
     @GetMapping("/books")
-    public Iterable<BookDto> getBooks() {
-        return bookService.getBooks();
+    public ResponseEntity<Iterable<BookDto>> getAll() {
+        List<BookDto> allBooks = new ArrayList<>();
+        try {
+            allBooks = bookService.getBooks();
+        }catch (Exception e){
+            return new ResponseEntity<Iterable<BookDto>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Iterable<BookDto>>(allBooks, HttpStatus.OK);
     }
 
+
+
     @DeleteMapping("/remove-books")
-    public ResponseEntity<Void> deletAllBooks() {
+    public ResponseEntity<Void> deleteAll() {
         try {
             List<BookDto> allBooksDto = bookService.getBooks();
             bookService.deleteAllBooks(allBooksDto);
         }catch (Exception e){
-            //throw renvoie l exeption tel que  au front pas ouf!
-            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR); //renvoie une erreur 500
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);//reponse http Point rest propre on renvoie un no content (signifie : pas de body ds la reponse)
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
+
+    @Override
+    public ResponseEntity<BookDto> update(BookDto element) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<BookDto> create(BookDto element) {
+        return null;
+    }
+
 }

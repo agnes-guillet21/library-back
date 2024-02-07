@@ -10,5 +10,5 @@ public interface LibraryRestController<T> {
 
     ResponseEntity<Void> deleteAll();
 
-    ResponseEntity<T> create(T element); // t element => le parametre type + nom  // <T> type du retour attendu
+    ResponseEntity<T> create(T element);
 }

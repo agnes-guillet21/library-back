@@ -1,5 +1,7 @@
 package fr.library.back.book;
 
+import java.util.List;
+
 public class BookMapper {
 
     private BookMapper(){};
@@ -24,4 +26,19 @@ public class BookMapper {
         return bookEntity;
     }
 
+    public static List<BookDto> mapEntities(List<BookEntity> bookEntity) throws Exception {
+        // TODO
+        if (true) {
+            throw new Exception("il faut implémenter la methode sinon ca marche pas");
+        }
+        return null;
+    }
+
+    public static List<BookEntity> mapDtos(List<BookDto> bookEntity) throws Exception {
+        // TODO
+        if (true) {
+            throw new Exception("il faut implémenter la methode sinon ca marche pas");
+        }
+        return null;
+    }
 }

@@ -7,12 +7,15 @@ import java.util.List;
 
 
 @Service
-public class BookServiceImpl {
+public class BookService {
 
     private BookDao bookDao;
 
-    //    Privilegier un construct plutot qu autowired
-    public BookServiceImpl(BookDao bookDao) {
+    /**
+     * Construct
+     * @param bookDao
+     */
+    public BookService(BookDao bookDao) {
         this.bookDao = bookDao;
     }
     /**
@@ -28,10 +31,26 @@ public class BookServiceImpl {
         return bookDtos;
     }
 
+    /**
+     * @param bookDtos
+     */
     public void deleteAllBooks(List<BookDto> bookDtos){
         List<BookEntity> bookEntities = new ArrayList<>();
         for (BookDto bookDto : bookDtos) {
             bookEntities.remove(BookMapper.map(bookDto));
         }
     }
+
+    /**
+     * @param bookDto
+     * @return BookDto : object for front
+     */
+    public BookDto createBook(BookDto bookDto) {
+        BookEntity bookEntity = bookDao.save(BookMapper.map(bookDto));
+        return BookMapper.map(bookEntity);
+    }
+
+//    public BookDto updateBook(BookDto bookDto){
+//        return  BookMapper.map(bookEntity);
+//    }
 }
